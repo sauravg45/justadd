@@ -1,0 +1,12 @@
+{% extends 'advert/base.html' %}
+{% block content %}       
+	{% for advert in adverts  %}
+            <div>
+                                
+                <h2><a href="">{{ advert.title }}</a></h2>
+                <p>published: {{ advert.published_date }}</p>
+                <p>Detail:
+                <br>{{ advert.text|linebreaksbr }}</p>
+            </div>
+        {% endfor %}
+{% endblock %}
