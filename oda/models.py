@@ -1,5 +1,5 @@
 from django.db import models
-#from phonenumber_field.modelfields import PhoneNumberField
+from phonenumber_field.modelfields import PhoneNumberField
 from django.conf import settings
 
 class Wraptype(models.Model):
@@ -29,7 +29,7 @@ class Driver(models.Model):
 	car_model=models.ForeignKey('Car_model',on_delete=models.PROTECT)
 	brand=models.ForeignKey('Brand',on_delete=models.PROTECT)
 	car_no=models.CharField(max_length=20)
-	#phone_no=PhoneNumberField(null=False,blank=False)
+	phone_no=PhoneNumberField(null=False,blank=False)
 	def __str__(self):
 		return self.driver_name
 # Create your models here.
