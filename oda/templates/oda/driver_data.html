@@ -1,0 +1,14 @@
+<html>
+	<h1>Details of campaign drivers</h1>
+	{%for dat in driver_data%}
+	<h1>---------------------------------</h1>
+	<ul style="list-style-type:disc">
+	<li>Name={{dat.driver_name}}</li>
+	<li>Car Model={{dat.car_model.car_model}}
+	<li>Phone_NO={{dat.phone_no}}</li>
+	<li>Distance Covered=^\()/^
+	<li><a href="{%url 'oda:driver_posdata' dat.pk%}">driver heat Map</a></li>
+	</ul>
+	<h1>---------------------------------</h1>
+	{%endfor%}
+</html>

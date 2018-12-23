@@ -1,0 +1,15 @@
+
+
+<html>
+	<h1>Campaign Detail of {{brand_data.name}}</h1>
+	 <ul style="list-style-type:disc">
+	  <li>Campaign Region: {{brand_data.region}} </li>
+	  <li>Wrap type chosen: {{brand_data.wrap_type.wrap_type}}</li>
+	  <li>Campaign Start date: {{brand_data.start_date}}</li>
+	  <li>Campaign Duration: {{brand_data.duration}}</li>
+	  <li> <a href="{%url 'oda:driver_data' %}">Driver Detail</a></li>
+	  <li>Distance covered: ^\()/^</li>
+	  <li><a href="{%url 'oda:brand_posdata'%}">Campaign heat map</a></li>
+	</ul>
+
+</html>
