@@ -1,14 +1,34 @@
-<html>
-	<h1>Details of campaign drivers</h1>
-	{%for dat in driver_data%}
-	<h1>---------------------------------</h1>
-	<ul style="list-style-type:disc">
-	<li>Name={{dat.driver_name}}</li>
-	<li>Car Model={{dat.car_model.car_model}}
-	<li>Phone_NO={{dat.phone_no}}</li>
-	<li>Distance Covered=^\()/^
-	<li><a href="{%url 'oda:driver_posdata' dat.pk%}">driver heat Map</a></li>
-	</ul>
-	<h1>---------------------------------</h1>
-	{%endfor%}
-</html>
+
+{%extends 'oda/base.html'%}
+{%block content%}
+	<title>Driver Detail</title>
+	
+<div class="container">
+	<h2>Campaign Driver Details</h2>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Car Model</th>
+				<th>Phone Number</th>
+				<th>Distance Covered</th>
+				<th>Generate HeatMap</th>
+			</tr>
+		</thead>
+		<tbody>
+		{%for dat in driver_data%}
+			<tr>
+				<td>{{dat.driver_name}}</td>
+				<td>{{dat.car_model.car_model}}</td>
+				<td>{{dat.phone_no}}</td>
+				<td>xyz</td>
+				<td><a href="{%url 'oda:driver_posdata' dat.pk%}">Driver HeatMap</a></td>
+
+			</tr>
+		{%endfor%}
+		</tbody>
+	</table>
+</div>
+{%endblock%}
+
+

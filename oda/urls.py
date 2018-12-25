@@ -7,7 +7,9 @@ urlpatterns = [
     #path('brand/<int:brand_id>/', views.brand_data, name='brand_data'),
     path('user/driver/',views.driver_data,name='driver_data'),
     path('user/',views.login_user,name='login'),
-    path('user/heatmap/',views.Posdata_brand,name='brand_posdata'),
+    #path('user/heatmap/',views.Posdata_brand,name='brand_posdata'),
     path('driver/heatmap/<int:driver_id>/',views.Posdata_driver,name='driver_posdata'),
-    path('',views.Home,name='home')
+    path('',views.Home,name='home'),
+    path('user/logout',views.logout_user,name='logout'),
+    path('brand/',views.Brand_data,name='brand_data')
 ]

@@ -1,9 +1,7 @@
 from django.shortcuts import render,get_object_or_404
 from .models import Brand,Driver,Pos_data
-
 from django.shortcuts import render,redirect
-from django.contrib.auth import authenticate,login
-
+from django.contrib.auth import authenticate,login, logout
 from .serializers import PosdataSerializer
 
 # Create your views here.
@@ -13,13 +11,17 @@ from .serializers import PosdataSerializer
 
 def driver_data(request):
 	if not request.user.is_authenticated:
-		return render(request, 'oda/login.html')
+		return redirect('oda:login')
 	else:
+		redirect('oda:login')
 		brand=get_object_or_404(Brand,manager=request.user)
 		driver_data=brand.driver_set.all()
 		context={'driver_data':driver_data}
 		return render(request,'oda/driver_data.html',context)
 
+def logout_user(request):
+	logout(request)
+	return redirect('oda:login')
 
 def login_user(request):
 	if request.method=="POST":
@@ -29,9 +31,10 @@ def login_user(request):
 		if user is not None:
 			if user.is_active:
 				login(request,user)
-				brand_data=get_object_or_404(Brand,manager=request.user)
-				#brand_data=Brand.objects.filter(manager=request.user)
-				return render(request,'oda/brand_data.html',{'brand_data':brand_data})
+				#brand_data=get_object_or_404(Brand,manager=request.user)
+				##brand_data=Brand.objects.filter(manager=request.user)
+				#return render(request,'oda/brand_data.html',{'brand_data':brand_data})
+				return redirect('oda:brand_data')
 				
 			else:
 				return render(request,'oda/login.html',{'error_message':"your account has been disabled"})
@@ -43,24 +46,24 @@ def login_user(request):
 		else:
 			brand_data=Brand.objects.filter(manager=request.user)
 			if not brand_data:
-				return render(request,'oda/login.html')
+				return redirect('oda:login')
 			else:
-				return render(request,'oda/brand_data.html',{'brand_data':brand_data})
+				return redirect('oda:brand_data')
 			
-
+'''
 def Posdata_brand(request):
 	if not request.user.is_authenticated:
-		return render(request, 'oda/login.html')
+		return redirect('oda:login')
 	else:
 		brand=get_object_or_404(Brand,manager=request.user)
 		posdata=Pos_data.objects.filter(brand=brand)
 		serializer=PosdataSerializer(posdata,many=True)
 		data=serializer.data[:]
 		return render(request,'oda/map_point.html',{'data':data})
-
+'''
 def Posdata_driver(request,driver_id):
 	if not request.user.is_authenticated:
-		return render(request, 'oda/login.html')
+		return redirect('oda:login')
 	else:
 		posdata=Pos_data.objects.filter(driver_id=driver_id)
 		serializer=PosdataSerializer(posdata,many=True)
@@ -69,6 +72,20 @@ def Posdata_driver(request,driver_id):
 
 def Home(request):
 	return render(request,'oda/home.html',{})
+
+def Brand_data(request):
+	if not request.user.is_authenticated:
+		return redirect('oda:login')
+	else:
+		brand_data=get_object_or_404(Brand,manager=request.user)
+		posdata=Pos_data.objects.filter(brand=brand_data)
+		serializer=PosdataSerializer(posdata,many=True)
+		data=serializer.data[:]
+		context={'brand_data':brand_data,'data':data}
+		return render(request,'oda/brand_data.html',context)
+		'''brand_data=Brand.objects.filter(manager=request.user)
+		context={'brand_data':brand_data}
+		return render(request,'oda/brand_data.html',context)'''
 
 '''
 

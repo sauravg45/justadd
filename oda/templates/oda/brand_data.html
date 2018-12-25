@@ -1,15 +1,137 @@
 
+{%extends 'oda/base.html'%}
+{%block content%}
+ 
+<div class="container-fluid">
+  <div class="panel panel-default">
+    <div class="panel-heading"><h2>{{brand_data.name}} Campaign </h2>
+    </div>
+    	<div class="panel-body">
+    		<div class="row">
+    			<div class="col-sm-3 col-md-6 col-lg-4">
+    				<table class="table table-striped">
+    					<tbody>
+    						<tr>
+    							<td>Campaign Region</td>
+    							<td>{{brand_data.region}}</td>
+    							
+    						</tr>
+    						<tr>
+    							<td>Wrap type</td>
+    							<td>{{brand_data.wrap_type.wrap_type}}</td>
+    							
+    						</tr>
+    						<tr>
+    							<td>Campaign Start date</td>
+    							<td>{{brand_data.start_date}}</td>
+    							
+    						</tr>
+    						<tr>
+    							<td>Campaign Duration</td>
+    							<td>{{brand_data.duration}} Month</td>
+    							
+    						</tr>
+    						<tr>
+    							<td><a href="{%url 'oda:driver_data' %}">Driver Detail</a></td>
+    							<td></td>
+    							
+    						</tr>
+    					</tbody>
+    				</table>
 
-<html>
-	<h1>Campaign Detail of {{brand_data.name}}</h1>
-	 <ul style="list-style-type:disc">
-	  <li>Campaign Region: {{brand_data.region}} </li>
-	  <li>Wrap type chosen: {{brand_data.wrap_type.wrap_type}}</li>
-	  <li>Campaign Start date: {{brand_data.start_date}}</li>
-	  <li>Campaign Duration: {{brand_data.duration}}</li>
-	  <li> <a href="{%url 'oda:driver_data' %}">Driver Detail</a></li>
-	  <li>Distance covered: ^\()/^</li>
-	  <li><a href="{%url 'oda:brand_posdata'%}">Campaign heat map</a></li>
-	</ul>
 
-</html>
+    			</div>
+    			<div class="col-sm-9 col-md-6 col-lg-8" >
+    				<body>
+    <div id="floating-panel">
+      <button onclick="toggleHeatmap()">Toggle Heatmap</button>
+      <button onclick="changeGradient()">Change gradient</button>
+      <button onclick="changeRadius()">Change radius</button>
+      <button onclick="changeOpacity()">Change opacity</button>
+    </div>
+    <div id="map"></div>
+    <script>
+
+      // This example requires the Visualization library. Include the libraries=visualization
+      // parameter when you first load the API. For example:
+      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization">
+
+      var map, heatmap;
+
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 12,
+          center: {lat: 22.592714, lng: 88.394888},
+          mapTypeId: 'hybrid'
+        });
+
+        heatmap = new google.maps.visualization.HeatmapLayer({
+          data: getPoints(),
+          map: map
+        });
+      }
+
+      function toggleHeatmap() {
+        heatmap.setMap(heatmap.getMap() ? null : map);
+      }
+
+      function changeGradient() {
+        var gradient = [
+          'rgba(0, 255, 255, 0)',
+          'rgba(0, 255, 255, 1)',
+          'rgba(0, 191, 255, 1)',
+          'rgba(0, 127, 255, 1)',
+          'rgba(0, 63, 255, 1)',
+          'rgba(0, 0, 255, 1)',
+          'rgba(0, 0, 223, 1)',
+          'rgba(0, 0, 191, 1)',
+          'rgba(0, 0, 159, 1)',
+          'rgba(0, 0, 127, 1)',
+          'rgba(63, 0, 91, 1)',
+          'rgba(127, 0, 63, 1)',
+          'rgba(191, 0, 31, 1)',
+          'rgba(255, 0, 0, 1)'
+        ]
+        heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
+      }
+
+      function changeRadius() {
+        heatmap.set('radius', heatmap.get('radius') ? null : 20);
+      }
+
+      function changeOpacity() {
+        heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
+      }
+
+      // Heatmap data: 500 Points
+      
+      function getPoints() {
+        return [
+        {%for dat in data%}
+          new google.maps.LatLng({{dat.latpos}}, {{dat.lonpos}}),
+          
+        {%endfor%}
+        ];
+      }
+      
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqQk95yb7uMTwezjUiQIHdkRl2D6lGNwQ&libraries=visualization&callback=initMap">
+    </script>
+  </body>
+
+
+    			</div>
+    		</div>
+    	</div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+{%endblock%}
